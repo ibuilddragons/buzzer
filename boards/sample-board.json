@@ -1,0 +1,66 @@
+{
+  "id": "sample-board",
+  "title": "Sample Board",
+  "rounds": [
+    {
+      "name": "Round 1",
+      "categories": [
+        { "name": "Science", "clues": [
+          { "value": 200, "clue": "This gas makes up about 78% of Earth's atmosphere", "answer": "What is nitrogen?" },
+          { "value": 400, "clue": "The powerhouse of the cell", "answer": "What is the mitochondrion?" },
+          { "value": 600, "clue": "H2O2 is the chemical formula for this household antiseptic", "answer": "What is hydrogen peroxide?" },
+          { "value": 800, "clue": "This planet has the shortest day in the solar system, about 10 hours", "answer": "What is Jupiter?" },
+          { "value": 1000, "clue": "The SI unit of electrical resistance", "answer": "What is the ohm?" }
+        ]},
+        { "name": "Flags", "clues": [
+          { "value": 200, "clue": "This country's flag is shown here", "answer": "What is Japan?", "media": [{ "kind": "image", "src": "media/flag-japan.svg" }] },
+          { "value": 400, "clue": "The maple leaf flag belongs to this country", "answer": "What is Canada?" },
+          { "value": 600, "clue": "This country's flag is the only non-rectangular national flag", "answer": "What is Nepal?" },
+          { "value": 800, "clue": "Its flag features a cedar tree between two red stripes", "answer": "What is Lebanon?" },
+          { "value": 1000, "clue": "This Scandinavian country's flag is often cited as the oldest in continuous use", "answer": "What is Denmark?" }
+        ]},
+        { "name": "Name That Sound", "clues": [
+          { "value": 200, "clue": "These four rising notes form this kind of chord: major or minor?", "answer": "What is major? (C major arpeggio)", "media": [{ "kind": "audio", "src": "media/arpeggio.wav" }] },
+          { "value": 400, "clue": "A piano has this many keys", "answer": "What is 88?" },
+          { "value": 600, "clue": "This woodwind instrument usually tunes the orchestra", "answer": "What is the oboe?" },
+          { "value": 800, "clue": "The Italian term for gradually getting louder", "answer": "What is crescendo?" },
+          { "value": 1000, "clue": "In standard tuning, the lowest string on a guitar is tuned to this note", "answer": "What is E?" }
+        ]},
+        { "name": "Food", "clues": [
+          { "value": 200, "clue": "Guacamole is made mainly from this fruit", "answer": "What is avocado?" },
+          { "value": 400, "clue": "This Italian cheese is traditionally used on a Margherita pizza", "answer": "What is mozzarella?" },
+          { "value": 600, "clue": "Saffron comes from this flower", "answer": "What is the crocus?", "dd": true },
+          { "value": 800, "clue": "This Japanese soup is made from dashi and fermented soybean paste", "answer": "What is miso soup?" },
+          { "value": 1000, "clue": "The Scoville scale measures this", "answer": "What is spiciness (capsaicin heat)?" }
+        ]},
+        { "name": "Words", "clues": [
+          { "value": 200, "clue": "A word that reads the same backward and forward", "answer": "What is a palindrome?" },
+          { "value": 400, "clue": "The plural of 'cactus' that most dictionaries list first", "answer": "What is cacti?" },
+          { "value": 600, "clue": "This punctuation mark ‽ combines a question mark and an exclamation point", "answer": "What is the interrobang?" },
+          { "value": 800, "clue": "A word formed from the first letters of other words, like 'laser'", "answer": "What is an acronym?" },
+          { "value": 1000, "clue": "This 10-letter word, fittingly, can be typed using only the top letter row of a QWERTY keyboard", "answer": "What is typewriter?" }
+        ]}
+      ]
+    },
+    {
+      "name": "Double Round",
+      "categories": [
+        { "name": "Geography", "clues": [
+          { "value": 400, "clue": "The longest river in South America", "answer": "What is the Amazon?" },
+          { "value": 800, "clue": "This country has the most time zones, counting overseas territories", "answer": "What is France?", "dd": true },
+          { "value": 1200, "clue": "The capital of Australia", "answer": "What is Canberra?" }
+        ]},
+        { "name": "Numbers", "clues": [
+          { "value": 400, "clue": "The number of sides on a hexagon", "answer": "What is 6?" },
+          { "value": 800, "clue": "The square root of 169", "answer": "What is 13?" },
+          { "value": 1200, "clue": "The only even prime number", "answer": "What is 2?" }
+        ]},
+        { "name": "Space", "clues": [
+          { "value": 400, "clue": "The closest star to Earth", "answer": "What is the Sun?" },
+          { "value": 800, "clue": "This planet is famous for its Great Red Spot", "answer": "What is Jupiter?" },
+          { "value": 1200, "clue": "The name of our galaxy", "answer": "What is the Milky Way?" }
+        ]}
+      ]
+    }
+  ]
+}

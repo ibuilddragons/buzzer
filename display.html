@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Display · BuzzBoard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<style>
+  html, body { height: 100%; overflow: hidden; }
+  #screen { height: 100vh; height: 100dvh; display: grid; grid-template-rows: auto 1fr auto; gap: 10px; padding: 10px; }
+  .dhead { display: flex; align-items: center; gap: 1rem; }
+  .dhead h1 { font-size: clamp(1rem, 2.2vw, 1.8rem); margin: 0; }
+  .dhead .round { color: var(--muted); font-family: var(--board-font); }
+  .dhead .join { margin-left: auto; text-align: right; font-size: .9rem; color: var(--muted); }
+  .dhead .join b { color: var(--text); }
+  .dmain { position: relative; min-height: 0; display: grid; }
+  .dmain .board { height: 100%; grid-auto-rows: 1fr; grid-template-rows: auto; }
+  .dmain .board .cat { font-size: clamp(.8rem, 1.8vw, 1.6rem); }
+  .dmain .board .cell { font-size: clamp(1.2rem, 4.2vw, 3.6rem); }
+  .dmain .clue-view { height: 100%; min-height: 0; overflow: hidden; }
+  .dmain .clue-text { font-size: clamp(1.4rem, 4vw, 3.6rem); }
+  .dmain .media img, .dmain .media video { max-height: 42vh; }
+  .lobby { display: grid; place-items: center; text-align: center; gap: 1rem; }
+  .lobby .big { font-family: var(--board-font); font-size: clamp(3rem, 12vw, 9rem); color: var(--gold); letter-spacing: .15em; text-shadow: 4px 4px 0 #000; line-height: 1; }
+  .lobby-teams { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+  .lobby-teams .score { min-width: 150px; }
+  .scores .score .pts { font-size: clamp(1.2rem, 2.6vw, 2.2rem); }
+  .scores .score .name { font-size: clamp(.9rem, 1.5vw, 1.2rem); }
+  #start { position: fixed; inset: 0; display: grid; place-items: center; background: #000c; z-index: 50; }
+  .countdown { font-family: var(--board-font); font-size: 2rem; color: var(--gold); }
+</style>
+</head>
+<body>
+<div id="start">
+  <div class="card stack" style="text-align:center;width:min(420px,calc(100vw - 32px))">
+    <h2>Display screen</h2>
+    <p class="muted">Shows the board, clues, media and scores — never the answers until they're revealed. Screen-share this window.</p>
+    <label>Room code<input id="codeIn" maxlength="4" style="text-align:center;font-size:1.6rem;letter-spacing:.3em;text-transform:uppercase"></label>
+    <button class="primary" id="startBtn">Start display (enables sound)</button>
+    <p class="muted small" id="startStatus"></p>
+  </div>
+</div>
+
+<div id="screen">
+  <div class="dhead">
+    <h1 id="dTitle">BuzzBoard</h1>
+    <span class="round" id="dRound"></span>
+    <span class="status-dot" id="dDot"></span>
+    <div class="join" id="dJoin"></div>
+  </div>
+  <div class="dmain" id="dMain"></div>
+  <div class="scores" id="dScores"></div>
+</div>
+
+<script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script type="module" src="js/display.js"></script>
+</body>
+</html>

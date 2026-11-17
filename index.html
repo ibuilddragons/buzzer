@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#070d2b">
+<title>BuzzBoard · Join</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<style>
+  body { overscroll-behavior: none; }
+  .join-card { width: min(420px, 100%); }
+  .logo { font-family: var(--board-font); font-size: 2.6rem; color: var(--gold); text-align: center; text-shadow: 3px 3px 0 #000; margin: 0; }
+  #codeInput { font-family: var(--board-font); font-size: 2rem; letter-spacing: .3em; text-align: center; text-transform: uppercase; }
+  .links { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+
+  #play { min-height: 100vh; min-height: 100dvh; display: flex; flex-direction: column; }
+  .pbar { display: flex; align-items: center; gap: .6rem; padding: .5rem 16px; background: rgba(5,10,40,.75); border-bottom: 4px solid var(--team, var(--line)); }
+  .pbar .who { font-weight: 700; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .pbar .tm { font-size: .85em; color: var(--muted); }
+  .pbar .pts { font-family: var(--board-font); font-size: 1.4rem; color: var(--gold); margin-left: auto; }
+  .pmain { flex: 1; padding: 12px 16px; display: flex; flex-direction: column; gap: 12px; }
+  .pclue { background: var(--cell); border-radius: var(--radius); padding: 1rem; text-align: center; display: flex; flex-direction: column; gap: .6rem; align-items: center; }
+  .pclue .clue-text { font-size: clamp(1.05rem, 5vw, 1.8rem); }
+  .pclue .media img, .pclue .media video { max-height: 32vh; }
+  .waiting { text-align: center; color: var(--muted); padding: 2rem 0; font-size: 1.1rem; }
+  .team-pick { display: grid; gap: 8px; }
+  .team-pick button { justify-content: space-between; border-left: 8px solid var(--team); font-size: 1.1rem; padding: .8em 1em; }
+  .team-pick button.mine { outline: 3px solid var(--gold); }
+  .buzz-wrap { position: sticky; bottom: 0; padding: 12px 16px calc(12px + env(safe-area-inset-bottom)); background: linear-gradient(transparent, var(--bg) 30%); }
+  #buzz {
+    width: 100%; height: min(34vh, 220px); border-radius: 22px; border: 0; flex-direction: column; gap: .2em;
+    font-family: var(--board-font); font-size: clamp(2rem, 10vw, 3.6rem); letter-spacing: .04em;
+    color: #fff; text-shadow: 2px 2px 0 #0007; touch-action: manipulation; user-select: none; -webkit-user-select: none;
+    background: #3a4170; box-shadow: 0 8px 0 #0006; transition: transform .05s, background .15s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  #buzz:active:not(:disabled) { transform: translateY(5px); box-shadow: 0 3px 0 #0006; }
+  #buzz.s-open { background: #1fa85a; }
+  #buzz.s-armed { background: #3a4170; }
+  #buzz.s-locked, #buzz.s-penalty { background: #b23a3a; }
+  #buzz.s-won { background: var(--gold); color: #1a1300; text-shadow: none; animation: glow .6s ease-in-out infinite alternate; }
+  #buzz.s-other { background: #4c4f6b; }
+  #buzz .sub { display: block; font-family: system-ui, sans-serif; font-size: .9rem; letter-spacing: 0; font-weight: 600; opacity: .9; }
+  #buzz:disabled { opacity: 1; cursor: default; }
+  @keyframes glow { from { box-shadow: 0 0 0 0 #ffcc3300; } to { box-shadow: 0 0 30px 8px #ffcc33aa; } }
+  .conn-banner { background: var(--warn); color: #1a1000; text-align: center; padding: .3em; font-weight: 600; font-size: .9em; }
+  .mini-scores { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 2px; }
+  .mini-scores .score { flex: 1 0 auto; min-width: 90px; padding: .3em .5em; }
+  .mini-scores .score .pts { font-size: 1.15rem; }
+</style>
+</head>
+<body>
+
+<section id="join" class="center-page">
+  <div class="card join-card stack">
+    <h1 class="logo">BUZZBOARD</h1>
+    <form id="joinForm" class="stack">
+      <label>Room code<input id="codeInput" maxlength="4" autocomplete="off" autocapitalize="characters" required placeholder="ABCD"></label>
+      <label>Your name<input id="nameInput" maxlength="24" autocomplete="nickname" required placeholder="e.g. Alex"></label>
+      <button class="primary" style="font-size:1.25rem">Join game</button>
+      <p class="muted small" id="joinStatus" style="text-align:center;margin:0"></p>
+    </form>
+    <div class="links">
+      <a class="btn ghost sm" href="host.html">Host a game</a>
+      <a class="btn ghost sm" href="editor.html">Board editor</a>
+      <a class="btn ghost sm" id="displayLink" href="display.html">Display screen</a>
+    </div>
+  </div>
+</section>
+
+<section id="play" hidden>
+  <div class="conn-banner" id="connBanner" hidden>Reconnecting…</div>
+  <div class="pbar">
+    <span class="team-dot"></span>
+    <div style="min-width:0">
+      <div class="who" id="pName"></div>
+      <div class="tm" id="pTeam"></div>
+    </div>
+    <span class="pts" id="pScore"></span>
+    <button class="ghost icon" id="muteBtn" title="Mute sounds">🔊</button>
+  </div>
+  <div class="pmain" id="pmain"></div>
+  <div class="buzz-wrap">
+    <button id="buzz" class="s-armed" disabled>WAIT</button>
+  </div>
+</section>
+
+<script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
+<script type="module" src="js/player.js"></script>
+</body>
+</html>

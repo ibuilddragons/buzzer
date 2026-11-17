@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Board Editor · BuzzBoard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<style>
+  .layout { display: grid; grid-template-columns: 260px 1fr; gap: 16px; padding: 16px; align-items: start; }
+  @media (max-width: 860px) { .layout { grid-template-columns: 1fr; } }
+  .board-list { display: grid; gap: 6px; }
+  .board-item { text-align: left; justify-content: flex-start; width: 100%; }
+  .board-item.active { outline: 2px solid var(--gold); }
+  .board-item .sub { display: block; font-weight: 400; font-size: .8em; color: var(--muted); }
+  .tabs { display: flex; gap: 4px; flex-wrap: wrap; }
+  .tabs button.active { background: var(--gold); color: #1a1300; }
+  .ed-board .cat input { background: transparent; border: 0; color: var(--text); text-align: center; text-transform: uppercase; font-family: var(--board-font); padding: .2em; }
+  .ed-board .cat textarea { background: transparent; border: 0; color: var(--text); text-align: center; text-transform: uppercase; font-family: var(--board-font); padding: .2em; min-height: 3em; resize: none; font-size: inherit; }
+  .ed-board .cell { flex-direction: column; font-size: clamp(.9rem, 2vw, 1.6rem); gap: 2px; }
+  .ed-board .cell .snip { font-family: system-ui, sans-serif; font-size: .45em; font-weight: 400; color: var(--text); text-shadow: none; text-transform: none; line-height: 1.2; max-height: 2.4em; overflow: hidden; }
+  .ed-board .cell .icons { font-size: .45em; text-shadow: none; }
+  .ed-board .cell.empty .snip { color: var(--bad); }
+  .media-list { display: grid; gap: 8px; }
+  .media-item { display: flex; gap: 8px; align-items: center; background: #0a1340; border: 1px solid var(--line); border-radius: 8px; padding: 6px; }
+  .media-item .pv { width: 90px; flex: none; display: grid; place-items: center; }
+  .media-item .pv img, .media-item .pv video { max-width: 90px; max-height: 60px; }
+  .media-item audio { width: 100%; }
+  .media-item .info { flex: 1; min-width: 0; font-size: .85em; overflow-wrap: anywhere; }
+  .save-state { font-size: .85em; }
+  dialog .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+</style>
+</head>
+<body>
+<div class="topbar">
+  <h1>Board Editor</h1>
+  <span class="spacer"></span>
+  <a class="btn ghost" href="index.html">Home</a>
+  <a class="btn ghost" href="host.html">Host a game</a>
+</div>
+
+<div class="layout">
+  <aside class="card stack">
+    <div class="row">
+      <button class="primary" id="newBtn">+ New board</button>
+      <button id="importBtn">Import…</button>
+      <input type="file" id="importFile" accept=".json,application/json" hidden>
+    </div>
+    <h3>My boards</h3>
+    <p class="muted small">Saved in this browser.</p>
+    <div class="board-list" id="boardList"></div>
+    <div id="bundledWrap" hidden>
+      <h3>Boards in the repo</h3>
+      <p class="muted small">From <code>boards/index.json</code>. Copy one to edit it.</p>
+      <div class="board-list" id="bundledList"></div>
+    </div>
+  </aside>
+
+  <main id="editor" class="stack">
+    <div class="card muted" id="emptyState">Create a new board or pick one from the list.</div>
+  </main>
+</div>
+
+<dialog id="clueDlg">
+  <form method="dialog" class="stack" id="clueForm">
+    <div class="row"><h2 id="clueTitle" style="margin:0">Edit clue</h2><span class="spacer"></span><button type="button" class="ghost icon" aria-label="Close" onclick="this.closest('dialog').close()">✕</button></div>
+    <div class="grid2">
+      <label>Value <input type="number" name="value" step="100"></label>
+      <label class="check" style="align-self:end"><input type="checkbox" name="dd"> Daily Double (wager)</label>
+    </div>
+    <label>Clue (what everyone sees)<textarea name="clue" rows="3"></textarea></label>
+    <label>Answer (only the host sees this until revealed)<input name="answer"></label>
+    <div>
+      <label>Media shown/played when the clue is revealed</label>
+      <div class="media-list" id="mediaList"></div>
+      <div class="row" style="margin-top:8px">
+        <button type="button" id="addFileBtn">+ Upload image / audio / video</button>
+        <input type="file" id="mediaFile" accept="image/*,audio/*,video/*" multiple hidden>
+      </div>
+      <div class="row" style="margin-top:8px">
+        <input id="mediaUrl" placeholder="…or a URL / repo path, e.g. media/theme.mp3" style="flex:1;min-width:200px">
+        <button type="button" id="addUrlBtn">Add URL</button>
+      </div>
+      <p class="muted small">Uploaded files are stored inside the board and sent to players when the clue opens. For big files (over a few MB), put them in the repo's <code>media/</code> folder and add them by path instead.</p>
+    </div>
+    <div class="row"><span class="spacer"></span><button type="button" class="ghost" onclick="this.closest('dialog').close()">Cancel</button><button value="ok" class="primary">Save clue</button></div>
+  </form>
+</dialog>
+
+<script type="module" src="js/editor.js"></script>
+</body>
+</html>
